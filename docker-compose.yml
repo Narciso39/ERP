@@ -1,24 +1,26 @@
-version: '3'
+version: '3.5'
 
 services:
-  db: 
+  db:
     image: postgres
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
     container_name: postgres
-    volumes: 
+    volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
-      - "7654:5432"
+      - '7654:7654'
 
   app:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
-    container_name: erp-backend
+    container_name: nest-docker-postgres
     environment:
-      - PORT=3000
+      - NODE_ENV=production
+    expose:
+      - "3000"
     ports:
       - '3000:3000'
     depends_on:
@@ -29,11 +31,11 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     restart: always
-    container_name: erp-pgadmin4
+    container_name: nest-pgadmin4
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=pgadmin4
     ports:
-      - "5050:80"
+      - '5050:80'
     depends_on:
       - db
