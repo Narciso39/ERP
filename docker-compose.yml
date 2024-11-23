@@ -6,11 +6,12 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test  
     container_name: postgres
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
-      - '7654:7654'
+      - '7654:5432'
 
   app:
     build:
@@ -19,6 +20,7 @@ services:
     container_name: nest-docker-postgres
     environment:
       - NODE_ENV=production
+      - DATABASE_URL=postgresql://test:postgres@db:5432/test?schema=public
     expose:
       - "3000"
     ports:
@@ -27,7 +29,7 @@ services:
       - db
     volumes:
       - ./src:/app/src
-
+    command: ["./wait-for-it.sh", "db", "5432", "--", "npm", "run", "start:migrate:prod"]
   pgadmin:
     image: dpage/pgadmin4
     restart: always
