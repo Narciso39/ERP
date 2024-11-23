@@ -29,7 +29,7 @@ services:
       - db
     volumes:
       - ./src:/app/src
-    command: ["./wait-for-it.sh", "db", "5432", "--", "npm", "run", "start:migrate:prod"]
+    command: ["npm", "run", "start:migrate:prod"]
   pgadmin:
     image: dpage/pgadmin4
     restart: always
