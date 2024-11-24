@@ -35,6 +35,6 @@ export class UserCreateDTO {
 
 // permissões do usuário
 
-  @IsIn(['admin', 'superuser', 'user'])
-  roles: UserRoles;
+  @IsIn(['SUPERUSER', 'ADMIN', 'USER'])
+  role: UserRoles;
 }
